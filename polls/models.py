@@ -7,7 +7,8 @@ class Question(models.Model):
     pub_date = models.DateTimeField('date published')
 
     def __str__(self):
-        return f"name={self.name}, question_text={self.question_text}, pub_date={self.pub_date}"
+        return f"name={self.name}, question_text={self.question_text}, pub_date={self.pub_date}" + \
+            ",".join([str(c) for c in self.choice_set.all()])
 
 
 class Choice(models.Model):
@@ -15,3 +16,5 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f"choice_text={self.choice_text}, votes={self.votes}"

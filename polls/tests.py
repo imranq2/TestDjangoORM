@@ -3,7 +3,7 @@ from typing import List, Any
 from django.test import TestCase
 
 from automapper.automapper import AutoMapper
-from polls.models import Question
+from polls.models import Question, Choice
 
 
 class QuestionTestCase(TestCase):
@@ -16,6 +16,19 @@ class QuestionTestCase(TestCase):
         second = Question.objects.get(name="2")
         self.assertEqual(first.question_text, 'What is your name?')
         self.assertEqual(second.question_text, 'Where do you live?')
+        first.choice_set.add(
+            Choice.objects.create(
+                question_id=1,
+                choice_text="1",
+                votes=1
+            ),
+            Choice.objects.create(
+                question_id=1,
+                choice_text="2",
+                votes=2
+            )
+        )
+        print(first)
 
     # noinspection PyMethodMayBeStatic
     def test_automapper(self):
