@@ -20,7 +20,7 @@ class AutoMapper:
         ]
         return result
 
-    @transaction.atomic
+    # @transaction.atomic
     def transform(self, data: List[Union[str, Dict[str, Any], List[Dict[str, Any]]]]) -> List[models.Model]:
         result: List[MyBase] = self.transform_simple(data=data)
         result_django: List[models.Model] = [

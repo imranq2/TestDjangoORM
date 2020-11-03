@@ -10,32 +10,34 @@ from polls.models import Question, Choice
 
 
 class QuestionTestCase(TestCase):
-    def setUp(self):
-        Question.objects.create(name="1", question_text="What is your name?", pub_date="2020-01-01")
-        Question.objects.create(name="2", question_text="Where do you live?", pub_date="2020-01-01")
-
-    def test_questions_can_speak(self):
-        first = Question.objects.get(name="1")
-        second = Question.objects.get(name="2")
-        self.assertEqual(first.question_text, 'What is your name?')
-        self.assertEqual(second.question_text, 'Where do you live?')
-        first.choice_set.add(
-            Choice.objects.create(
-                question_id=1,
-                choice_text="1",
-                votes=1
-            ),
-            Choice.objects.create(
-                question_id=1,
-                choice_text="2",
-                votes=2
-            )
-        )
-        print(first)
+    # def setUp(self):
+    #     # Question.objects.create(name="1", question_text="What is your name?", pub_date="2020-01-01")
+    #     # Question.objects.create(name="2", question_text="Where do you live?", pub_date="2020-01-01")
+    #
+    # def test_questions_can_speak(self):
+    #     first = Question.objects.get(name="1")
+    #     second = Question.objects.get(name="2")
+    #     self.assertEqual(first.question_text, 'What is your name?')
+    #     self.assertEqual(second.question_text, 'Where do you live?')
+    #     first.choice_set.add(
+    #         Choice.objects.create(
+    #             question_id=1,
+    #             choice_text="1",
+    #             votes=1
+    #         ),
+    #         Choice.objects.create(
+    #             question_id=1,
+    #             choice_text="2",
+    #             votes=2
+    #         )
+    #     )
+    #     print(first)
 
     # noinspection PyMethodMayBeStatic
     @override_settings(DEBUG=True)
     def test_automapper(self):
+        obj = Question.objects.filter(name="1").first()
+
         automapper = AutoMapper().map(
             lambda row: MyQuestion(
                 name=row["name"],
@@ -56,6 +58,7 @@ class QuestionTestCase(TestCase):
                 ]
             )
         )
+        print("---------- first pass -----------")
         result: List[Any] = automapper.transform([
             {
                 "name": "1",
@@ -66,6 +69,19 @@ class QuestionTestCase(TestCase):
                 "name": "2",
                 "question_text": "Where do you live?",
                 "pub_date": "2020-01-02"
-            }
+            },
+        ])
+        print("---------- second pass ----------")
+        result2: List[Any] = automapper.transform([
+            {
+                "name": "1",
+                "question_text": "What is your name?",
+                "pub_date": "2020-01-01",
+            },
+            {
+                "name": "2",
+                "question_text": "Where do you live?",
+                "pub_date": "2020-01-02"
+            },
         ])
         print(result)
