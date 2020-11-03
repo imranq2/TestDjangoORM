@@ -1,4 +1,6 @@
 from django.db import models
+from django.db import transaction
+
 from typing import List, Any, Union, Dict
 
 from automapper.classes.my_base import MyBase
@@ -18,6 +20,7 @@ class AutoMapper:
         ]
         return result
 
+    @transaction.atomic
     def transform(self, data: List[Union[str, Dict[str, Any], List[Dict[str, Any]]]]) -> List[models.Model]:
         result: List[MyBase] = self.transform_simple(data=data)
         result_django: List[models.Model] = [

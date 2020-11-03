@@ -1,6 +1,7 @@
 from typing import List, Any
 
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from automapper.automapper import AutoMapper
 from automapper.classes.my_author import MyAuthor
@@ -33,6 +34,7 @@ class QuestionTestCase(TestCase):
         print(first)
 
     # noinspection PyMethodMayBeStatic
+    @override_settings(DEBUG=True)
     def test_automapper(self):
         automapper = AutoMapper().map(
             lambda row: MyQuestion(
