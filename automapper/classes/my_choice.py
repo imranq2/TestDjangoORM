@@ -1,4 +1,5 @@
 from typing import Optional
+from django.db import models
 
 from automapper.classes.my_base import MyBase
 from polls.models import Choice
@@ -13,9 +14,9 @@ class MyChoice(MyBase[Choice]):
     def __str__(self):
         return f"choice_text={self.choice_text}, votes={self.votes}"
 
-    def to_django(self, parent_id: Optional[int]) -> Choice:
+    def to_django(self, parent: Optional[models.Model]) -> Choice:
         obj: Choice = Choice(
-            question_id=parent_id,
+            question=parent,
             choice_text=self.choice_text,
             votes=self.votes
         )

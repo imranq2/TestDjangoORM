@@ -3,6 +3,7 @@ from typing import List, Any
 from django.test import TestCase
 
 from automapper.automapper import AutoMapper
+from automapper.classes.my_author import MyAuthor
 from automapper.classes.my_question import MyQuestion, MyChoice
 from polls.models import Question, Choice
 
@@ -38,6 +39,9 @@ class QuestionTestCase(TestCase):
                 name=row["name"],
                 question_text=row["question_text"],
                 pub_date=row["pub_date"],
+                author=MyAuthor(
+                  name="Potter"
+                ),
                 choices=[
                     MyChoice(
                         choice_text="Choice1",

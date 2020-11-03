@@ -11,5 +11,5 @@ class MyBase(Generic[_T]):
     def __setitem__(self, key, value):
         self.__setattr__(key, value)
 
-    def to_django(self, parent_id: Optional[int]) -> _T:
+    def to_django(self, parent: Optional[models.Model]) -> _T:
         raise NotImplementedError

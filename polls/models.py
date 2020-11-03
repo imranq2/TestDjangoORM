@@ -1,10 +1,19 @@
 from django.db import models
 
 
+class Author(models.Model):
+    name = models.CharField(max_length=20)
+
+
 class Question(models.Model):
     name = models.CharField(max_length=20)
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+    author = models.OneToOneField(
+        Author,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
 
     def __str__(self):
         return f"name={self.name}, question_text={self.question_text}, pub_date={self.pub_date}" + \

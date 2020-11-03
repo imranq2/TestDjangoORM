@@ -21,7 +21,7 @@ class AutoMapper:
     def transform(self, data: List[Union[str, Dict[str, Any], List[Dict[str, Any]]]]) -> List[models.Model]:
         result: List[MyBase] = self.transform_simple(data=data)
         result_django: List[models.Model] = [
-            obj.to_django(parent_id=None) for obj in result
+            obj.to_django(parent=None) for obj in result
         ]
         return result_django
 
