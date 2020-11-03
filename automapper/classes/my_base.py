@@ -15,4 +15,5 @@ class MyBase(Generic[_T]):
     def to_django(self, parent: Optional[models.Model]) -> _T:
         raise NotImplementedError
 
-
+    def update(self, obj: _T) -> _T:
+        raise NotImplementedError

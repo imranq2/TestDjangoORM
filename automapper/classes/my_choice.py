@@ -34,3 +34,10 @@ class MyChoice(MyBase[Choice]):
     def get_key_args(self) -> Dict[str, Any]:
         key_args: Dict[str, Any] = {key: self.__getattribute__(key) for key in self.keys}
         return key_args
+
+    def update(self, obj: Choice) -> Choice:
+        # check if all the fields are the same.  If not, update them
+        obj.choice_text = self.choice_text
+        obj.votes = self.votes
+        obj.save()
+        return obj
