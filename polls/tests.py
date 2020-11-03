@@ -3,6 +3,7 @@ from typing import List, Any
 from django.test import TestCase
 
 from automapper.automapper import AutoMapper
+from automapper.classes.my_question import MyQuestion, MyChoice
 from polls.models import Question, Choice
 
 
@@ -33,17 +34,27 @@ class QuestionTestCase(TestCase):
     # noinspection PyMethodMayBeStatic
     def test_automapper(self):
         automapper = AutoMapper().map(
-            lambda row: Question.objects.create(
+            lambda row: MyQuestion(
                 name=row["name"],
                 question_text=row["question_text"],
-                pub_date=row["pub_date"]
+                pub_date=row["pub_date"],
+                choices=[
+                    MyChoice(
+                        choice_text="Choice1",
+                        votes=1
+                    ),
+                    MyChoice(
+                        choice_text="Choice2",
+                        votes=2
+                    )
+                ]
             )
         )
         result: List[Any] = automapper.transform([
             {
                 "name": "1",
                 "question_text": "What is your name?",
-                "pub_date": "2020-01-01"
+                "pub_date": "2020-01-01",
             },
             {
                 "name": "2",
